@@ -3,7 +3,7 @@ Website summarizer using Ollama instead of OpenAI.
 """
 
 from openai import OpenAI
-from scraper import fetch_website_contents
+from week1.scripts.scraper import fetch_website_contents
 
 OLLAMA_BASE_URL = "http://localhost:11434/v1"
 MODEL = "llama3.2"
