@@ -19,7 +19,7 @@ RUN_NAME = "2025-11-28_18.47.07"
 PROJECT_RUN_NAME = f"{PROJECT_NAME}-{RUN_NAME}"
 REVISION = "b19c8bfea3b6ff62237fbb0a8da9779fc12cefbd"
 FINETUNED_MODEL = f"{HF_USER}/{PROJECT_RUN_NAME}"
-CACHE_DIR = "/cache"
+CACHE_DIR = "/cache" # hard disk volume path (like c:/ drive) inside the Modal container; not cache memory path
 
 # Change this to 1 if you want Modal to be always running, otherwise it will go cold after 2 mins
 MIN_CONTAINERS = 0
@@ -27,11 +27,12 @@ MIN_CONTAINERS = 0
 PREFIX = "Price is $"
 QUESTION = "What does this cost to the nearest dollar?"
 
-hf_cache_volume = Volume.from_name("hf-hub-cache", create_if_missing=True)
+# external volume of hard disk space that can be shared between containers. This is where the LLM weights will be persisted; Not actual cache memory.
+hf_cache_volume = Volume.from_name("hf-hub-cache", create_if_missing=True) 
 
 
 @app.cls(
-    image=image.env({"HF_HUB_CACHE": CACHE_DIR}), # Set the Hugging Face hub cache directory for the container storing LLM (model and tokenizer) weights
+    image=image.env({"HF_HUB_CACHE": CACHE_DIR}),
     secrets=secrets,
     gpu=GPU,
     timeout=1800,
