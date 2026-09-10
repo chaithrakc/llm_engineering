@@ -31,7 +31,7 @@ hf_cache_volume = Volume.from_name("hf-hub-cache", create_if_missing=True)
 
 
 @app.cls(
-    image=image.env({"HF_HUB_CACHE": CACHE_DIR}),
+    image=image.env({"HF_HUB_CACHE": CACHE_DIR}), # Set the Hugging Face hub cache directory for the container storing LLM (model and tokenizer) weights
     secrets=secrets,
     gpu=GPU,
     timeout=1800,
